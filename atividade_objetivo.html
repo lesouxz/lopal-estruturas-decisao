@@ -1,85 +1,64 @@
 <!DOCTYPE html>
- <html>
- <head>
-     <title>Cadastro de Alunos</title>
- </head>
- <body>
-     <h1>Cadastro de Alunos</h1>
-     <label for="nome">Nome:</label>
-     <input type="text" id="nome">
-     <br>
-     <label for="idade">Idade:</label>
-     <input type="text" id="idade">
-     <br>
-     <label for="sesi">Sesi:</label>
-     <input type="text" id="sesi">
-     <br>
-     <label for="pet">Possui pet?</label>
-     <select name="pet" id="pet">
-         <option value="sim">Sim</option>
-         <option value="nao">Não</option>
-     </select>
-     <br>
-     <button type="button" onclick="adicionarAlunos()">Adicionar Alunos</button>
-     <button type="button" onclick="removerUltimoAluno()">Remover aluno</button>
- 
-     <h2>Lista de Alunos</h2>
-     <ul id="lista-alunos"></ul>
- 
-     <script>
-         // Inicializa o array de alunos corretamente
-         let alunos = [];
- 
-         function adicionarAlunos() {
-             // Obtém os valores dos campos
-             const nome = document.getElementById("nome").value;
-             const idade = document.getElementById("idade").value;
-             const sesi = document.getElementById("sesi").value;
-             const pet = document.getElementById("pet").value;
- 
-             if (nome && idade && sesi) {
-                 // Adiciona o aluno ao array
-                 alunos.push({
-                     nome: nome,
-                     idade: idade,
-                     sesi: sesi,
-                     pet: pet
-                 });
- 
-                 // Atualiza a lista na tela
-                 imprimirAlunos();
- 
-                 // Limpa os campos de entrada
-                 document.getElementById("nome").value = "";
-                 document.getElementById("idade").value = "";
-                 document.getElementById("sesi").value = "";
-                 document.getElementById("pet").value = "sim";
-             } else {
-                 alert("Por favor, preencha todos os campos!");
-             }
-         }
- 
-         function removerUltimoAluno() {
-             if (alunos.length > 0) {
-                 // Remove o último aluno do array
-                 alunos.pop();
-                 imprimirAlunos();
-             } else {
-                 alert("Não há mais alunos para remover!");
-             }
-         }
- 
-         function imprimirAlunos() {
-             const lista = document.getElementById("lista-alunos");
-             lista.innerHTML = ""; // Limpa a lista atual
- 
-             // Adiciona cada aluno à lista
-             alunos.forEach((aluno, index) => {
-                 const item = document.createElement("li");
-                 item.textContent = (${index + 1}) Nome: ${aluno.nome}, Idade: ${aluno.idade}, Sesi: ${aluno.sesi}, Pet: ${aluno.pet};
-                 lista.appendChild(item)});
-         }
-     </script>
- 
- </body>
- </html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Alunos</title>
+</head>
+<body>
+    <h1>Cadastro de Alunos</h1>
+
+    <label>Nome: <input id="nome"></label><br>
+    <label>Idade: <input id="idade"></label><br>
+    <label>Sesi: <input id="sesi"></label><br>
+    <label>Pet: <select id="pet"><option value="sim">Sim</option><option value="nao">Não</option></select></label><br>
+
+    <button onclick="adicionarAluno()">Adicionar</button>
+    <button onclick="removerUltimoAluno()">Remover Último</button>
+
+    <h2>Lista de Alunos</h2>
+    <ul id="lista-alunos"></ul>
+
+    <script>
+        let alunos = [];
+
+        function adicionarAluno() {
+            const nome = document.getElementById("nome").value;
+            const idade = document.getElementById("idade").value;
+            const sesi = document.getElementById("sesi").value;
+            const pet = document.getElementById("pet").value;
+
+            if (nome && idade && sesi) {
+                alunos.push({ nome, idade, sesi, pet });
+                atualizarLista();
+                limparCampos();
+            } else {
+                alert("Preencha todos os campos!");
+            }
+        }
+
+        function removerUltimoAluno() {
+            if (alunos.length) {
+                alunos.pop();
+                atualizarLista();
+            } else {
+                alert("Nenhum aluno para remover!");
+            }
+        }
+
+        function atualizarLista() {
+            const lista = document.getElementById("lista-alunos");
+            lista.innerHTML = alunos.map((aluno, index) => 
+                <li>${index + 1}. ${aluno.nome}, ${aluno.idade} anos, Sesi: ${aluno.sesi}, Pet: ${aluno.pet}</li>
+            ).join('');
+        }
+
+        function limparCampos() {
+            document.getElementById("nome").value = "";
+            document.getElementById("idade").value = "";
+            document.getElementById("sesi").value = "";
+            document.getElementById("pet").value = "sim";
+        }
+    </script>
+</body>
+</html>
